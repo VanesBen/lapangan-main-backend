@@ -19,7 +19,6 @@ class BookingSeeder extends Seeder
             return;
         }
 
-        // 1. Create Booking
         $booking = Booking::create([
             'users_id'     => $user->id,    // FIX: users_id
             'courts_id'    => $court->id,   // FIX: courts_id
