@@ -158,11 +158,11 @@ class CourtController extends Controller
         $validated = $request->validate([
             'name'          => 'sometimes|required|string|max:255',
             'description'   => 'sometimes|required|string',
-            'is_active'     => 'sometimes|required|string|max:10',
+            'is_active'     => 'sometimes|required|boolean|max:10',
             'facilities'    => 'sometimes|required|string|max:500',
             'location'      => 'sometimes|required|string|max:100',
             'rules'         => 'sometimes|required|string|max:500',
-            'photo'         => 'sometimes|required|string|max:3000000',
+            'photo'         => 'sometimes|nullable|string|max:3000000',
             'category'      => 'sometimes|required|string|max:100|in:Basket,Futsal / Sepakbola,Badminton,Padel,Tenis'
         ]);
 
