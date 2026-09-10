@@ -158,7 +158,7 @@ class CourtController extends Controller
         $validated = $request->validate([
             'name'          => 'sometimes|required|string|max:255',
             'description'   => 'sometimes|required|string',
-            'is_active'     => 'sometimes|required|boolean|max:10',
+            'is_active'     => 'sometimes|boolean',
             'facilities'    => 'sometimes|required|string|max:500',
             'location'      => 'sometimes|required|string|max:100',
             'rules'         => 'sometimes|required|string|max:500',
