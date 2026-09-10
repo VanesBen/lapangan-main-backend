@@ -58,7 +58,7 @@ class AuthController extends Controller
         $user  = User::where('email', $validated['email'])->first();
 
         if(!$user || !Hash::check($validated['password'], $user->password)) {
-            return  $this->validationErrorResponse("email atau password salah");
+            return  $this->validationErrorResponse([], message:"email atau password salah");
         }
 
         $token = $user->createToken('auth-token')->plainTextToken;

@@ -20,8 +20,8 @@ class BookingSeeder extends Seeder
         }
 
         $booking = Booking::create([
-            'users_id'     => $user->id,    // FIX: users_id
-            'courts_id'    => $court->id,   // FIX: courts_id
+            'users_id'     => $user->id,    
+            'courts_id'    => $court->id,  
             'booking_code' => 'BK-' . strtoupper(Str::random(8)),
             'booking_date' => '2026-08-25',
             'start_time'   => '14:00:00',
@@ -32,7 +32,7 @@ class BookingSeeder extends Seeder
 
         // 2. Create Payment Linked to Booking
         Payment::create([
-            'bookingsid'     => $booking->id,
+            'bookings_id'     => $booking->id,
             'payment_method' => 'qris',
             'amount'         => '150000',
             'paid_at'        => now(),

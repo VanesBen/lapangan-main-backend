@@ -8,18 +8,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Court extends Model
 {
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'is_active',
         'facilities',
         'rules',
         'location',
-        'photo'
+        'photo',
+        'category'
     ];
 
     public function pricingRules(): HasMany
     {
         return $this->hasMany(PricingRule::class, 'courts_id', 'id');
+    }
+
+    public function courts()
+    {
+        return $this->hasMany(Court::class);
     }
     
 

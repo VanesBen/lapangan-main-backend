@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePricingRuleRequest;
+use App\Http\Requests\UpdatePricingRuleRequest;
 use App\Http\Traits\ApiResponse;
 use App\Models\PricingRule;
 use App\Http\Resources\PricingRuleResource;
@@ -28,15 +30,9 @@ class PricingRuleController extends Controller
         ], "Berhasil mengambil data aturan harga");
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StorePricingRuleRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'courts_id'      => 'required|exists:courts,id',
-            'day_type'       => 'required|string|max:50',
-            'start_hour'     => 'required|integer|min:0|max:23',
-            'end_hour'       => 'required|integer|min:1|max:24',
-            'price_per_hour' => 'required|integer|min:0',
-        ]);
+        $validated = $request->validated();
 
         $rule = PricingRule::create($validated);
 
@@ -54,23 +50,11 @@ class PricingRuleController extends Controller
         return $this->successResponse(new PricingRuleResource($rule), "Aturan harga berhasil ditemukan");
     }
 
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdatePricingRuleRequest $request, string $id): JsonResponse
     {
-        $rule = PricingRule::find($id);
+        $rule = PricingRule::findOrFail($id);
 
-        if (!$rule) {
-            return $this->notFoundResponse("Aturan harga tidak ditemukan");
-        }
-
-        $validated = $request->validate([
-            'courts_id'      => 'sometimes|required|exists:courts,id',
-            'day_type'       => 'sometimes|required|string|max:50',
-            'start_hour'     => 'sometimes|required|integer|min:0|max:23',
-            'end_hour'       => 'sometimes|required|integer|min:1|max:24',
-            'price_per_hour' => 'sometimes|required|integer|min:0',
-        ]);
-
-        $rule->update($validated);
+        $rule->update($request->validated());
 
         return $this->successResponse(new PricingRuleResource($rule), "Aturan harga berhasil di-update");
     }

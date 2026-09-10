@@ -17,11 +17,14 @@ class CourtResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'photo' => $this->photo,
             'description' => $this->description,
             'is_active' => $this->is_active,
             'facilities' => $this->facilities,
             'rules' => $this->rules,
-            'location' => $this->location
+            'location' => $this->location,
+            'category' => $this->category,
+            'prices' => PricingRuleResource::collection($this->whenLoaded('pricingRules'))
         ];
         
     }

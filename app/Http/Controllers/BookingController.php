@@ -25,9 +25,14 @@ class BookingController extends Controller
         // Query booking dengan eager loading lengkap
         $query = Booking::with(['court', 'user', 'payment']);
         
-        // Jika customer biasa, hanya bisa lihat booking miliknya sendiri
-        if ($user && $user->role !== 'admin') {
-            $query->where('users_id', $user->id); // FIX: Pakai users_id
+        if ($user->role === 'admin') {
+            // Admin: Hanya melihat transaksi dari lapangan-lapangan miliknya
+            $query->whereHas('court', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
+        } else {
+            // Customer: Hanya melihat transaksi yang ia booking sendiri
+            $query->where('users_id', $user->id);
         }
 
         $bookings = $query->orderBy('created_at', 'desc')->paginate($perPage);
